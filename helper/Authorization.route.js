@@ -10,7 +10,7 @@ authenticationRouter.post('/jwt', async (req, res) => {
         return res.status(400).send('User data is missing');
     }
     const token = jwt.sign(user, process.env.ACCESS_TOKEN, { expiresIn: '1h' });
-    res.send({ token });
+    res.status(200).send({ token });
 })
 
 const verifyJWT = (req, res, next) => {

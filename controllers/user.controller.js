@@ -1,28 +1,45 @@
+const { json } = require("express");
 const User = require("../models/users.model");
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const getAllUsers = async (req, res) => {
+
     try {
-        const result = await User.find();
-        res.status(200).json(result);
+        const { username, password } = req.body;
+        const user = await User.findOne({ username: username });
+        if (user) {
+            bcrypt.compare(password, user.password, function (err, result) {
+                if (result) {
+                    res.status(200).json({ status: "valid user",id:user.id });
+                }
+                if (err) {
+                    res.status(404).json({ status: "user password do not match" })
+                }
+            });
+        }
+        else {
+            res.status(404).json({ status: "user not valid" })
+        }
     } catch (error) {
         res.status(500).send(error.message);
     }
 }
-
 const setUsers = async (req, res) => {
-    const { email, name } = req.body;
-    if (!email || !name) {
-        return res.status(400).json({ error: "Both email and name are required." });
-    }
-    const existingUser = await User.findOne({ email });
+
+    const { username, password, id } = req.body;
+
+    const existingUser = await User.findOne({ username });
 
     if (existingUser) {
-        return res.status(406).json({ error: "Email already exists." });
+        return res.status(406).json({ error: "user already exists." });
     }
     try {
-        const newUser = new User({ email, name })
-        await newUser.save();
-        res.status(201).json(newUser);
+        bcrypt.hash(password, saltRounds, async function (err, hash) {
+            const newUser = new User({ username, password: hash, id });
+            await newUser.save();
+            res.status(201).json(newUser);
+        });
     } catch (error) {
         res.status(500).send(error.message);
     }

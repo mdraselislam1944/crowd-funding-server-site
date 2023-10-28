@@ -3,6 +3,7 @@ const config=require("./config");
 
 const DbURL=config.db.url;
 
+
 mongoose.connect(DbURL)
 .then(()=>{
     console.log("Mongoose is connect");

@@ -8,12 +8,27 @@ app.use(express.json());
 
 //users routed 
 const userRouter = require('./routes/user.route');
-app.use("/api/users", userRouter);
+app.use("/api", userRouter);
+
+//members route
+const memberRoute=require("./routes/members.route");
+app.use("/api",memberRoute);
+
+//requestMember
+const requestMember=require("./routes/JUBOF_Mem_Request.route");
+app.use("/api",requestMember);
 
 //authentication
-const {authenticationRouter}=require("./routes/Authorization.route");
+const {authenticationRouter}=require("./helper/Authorization.route");
 app.use("/api/authentication",authenticationRouter);
 
+//promotionList route
+const promotionList=require("./routes/promotionList.route");
+app.use('/api',promotionList);
+
+//postingPlaceList
+const postingPlaceList=require("./routes/postingPlaceList.route");
+app.use('/api',postingPlaceList);
 
 
 app.get("/", (req, res) => {

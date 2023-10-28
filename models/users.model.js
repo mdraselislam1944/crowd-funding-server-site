@@ -1,22 +1,29 @@
 const mongoose=require("mongoose");
 
-const userSchema=mongoose.Schema({
-    email:{
+const JUBOF_Users=new mongoose.Schema({
+    id:{
         type:String,
         required:true,
     },
-    name:{
+    username:{
+        type:String,
+        required:true,
+    },
+    password:{
         type:String,
         required:true,
     },
     role:{
         type:String,
-        default:"user",
+        default:"member",
     },
     createdOn:{
         type:Date,
         default:Date.now,
     }
+},
+{
+    collection: "JUBOF_Users"
 });
 
-module.exports=mongoose.model("users",userSchema);
+module.exports=mongoose.model("JUBOF_Users",JUBOF_Users);
