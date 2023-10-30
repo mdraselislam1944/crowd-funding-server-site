@@ -15,7 +15,7 @@ const getMember = async (req, res) => {
                 }
             }
         ]);
-        res.status(200).json(result);
+        res.status(200).json({ status: "success", data: result });
     } catch (error) {
         res.status(500).json({ message: `Something went wrong: ${error.message}` });
     }
@@ -30,7 +30,7 @@ const setMember = (req, res) => {
 const updateProfileMember = async (req, res) => {
     try {
         const result = await member.find({}).sort({ updateDate: -1 }).limit(20);
-        res.status(200).json(result);
+        res.status(200).json({ status: "success", data: result });
     } catch (error) {
         res.status(500).json({ message: `Something went wrong: ${error.message}` });
     }

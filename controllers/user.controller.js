@@ -38,7 +38,7 @@ const setUsers = async (req, res) => {
         bcrypt.hash(password, saltRounds, async function (err, hash) {
             const newUser = new User({ username, password: hash, id });
             await newUser.save();
-            res.status(201).json(newUser);
+            res.status(201).json({ status: "success", data: newUser });
         });
     } catch (error) {
         res.status(500).send(error.message);

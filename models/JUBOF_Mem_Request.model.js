@@ -19,7 +19,7 @@ const requestSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    Home_Dist: {
+    Permanent_Address: {
         type: String,
         required: true,
     },
@@ -64,6 +64,10 @@ const requestSchema = new mongoose.Schema({
     },
     Approvd_On:{
         type:Date,
+        default:"",
+    },
+    JUSession:{
+        type:String,
         default:"",
     },
     Enabled_On:{
